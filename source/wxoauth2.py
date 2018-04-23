@@ -5,8 +5,10 @@ import urllib.parse
 import json
 import requests
 
+from .base import APIBase
 
-class WxOauth2(object):
+
+class WxOauth2(APIBase):
 
     __webapp_oauth_url = "https://open.weixin.qq.com/connect/qrconnect#wechat_redirect"
 
@@ -23,33 +25,7 @@ class WxOauth2(object):
     def __init__(self, appid, appsecret, req=None):
         self._appid = appid.strip()
         self._appsecret = appsecret.strip()
-        self._client = req or requests
-        self.__connect_timeout = 5.0
-        self.__socket_timeout = 5.0
-        self.__proxies = {}
-
-    def _request(self, url, params, headers=None):
-        """自定义请求类"""
-        try:
-            resp = self._client.get(
-                url,
-                params=params,
-                headers=headers,
-                timeout=(self.__connect_timeout, self.__socket_timeout),
-                proxies=self.__proxies,
-            )
-            data = resp.json()
-        except (requests.exceptions.ReadTimeout, requests.exceptions.ConnectTimeout) as e:
-            return {
-                "errcode": "sdk001",
-                "errmsg": "connection or read data timeout",
-            }
-        except json.JSONDecodeError as e:
-            return {
-                "errcode": "sdk002",
-                "errmsg": "invalid json data",
-            }
-        return data
+        super().__init__(rep=req)
 
     def gen_webapp_oauth_url(self, redirect_uri, state=None):
         """生成微信开放平台网站应用授权链接，跳转链接后用户可扫码登录"""
@@ -104,7 +80,7 @@ class WxOauth2(object):
             "code": code,
             "grant_type": "authorization_code",
         }
-        return self._request(self.__access_token_url, params=params)
+        return self._get(self.__access_token_url, params=params)
 
     def renew_access_token(self, refresh_token):
         """
@@ -122,7 +98,7 @@ class WxOauth2(object):
             "grant_type": "refresh_token",
             "refresh_token": refresh_token,
         }
-        return self._request(self.__refresh_token_url, params=params)
+        return self._get(self.__refresh_token_url, params=params)
 
     def check_access_tokene(self, access_token, openid):
         """检查 access_token 是否有效"""
@@ -130,7 +106,7 @@ class WxOauth2(object):
             "access_token": access_token,
             "openid": openid,
         }
-        return self._request(self.__refresh_token_url, params=params)
+        return self._get(self.__refresh_token_url, params=params)
 
     def get_userinfo(self, access_token, openid, lang="zh_CN"):
         """
@@ -141,7 +117,7 @@ class WxOauth2(object):
         """
         if lang not in ("zh_CN", "zh_TW", "en"):
             return {
-                "errcode": "sdk003",
+                "errcode": "sdk101",
                 "errmsg": "invalid lang parameter, should be zh_CN, zh_TW or en",
             }
         params = {
@@ -149,7 +125,7 @@ class WxOauth2(object):
             "openid": openid,
             "lang": lang,
         }
-        return self._request(self.__check_token_url, params=params)
+        return self._get(self.__check_token_url, params=params)
 
 
 if __name__ == '__main__':
