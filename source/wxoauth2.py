@@ -1,6 +1,8 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
+__author__ = "Invoker"
+
 import urllib.parse
 
 from .base import APIBase
