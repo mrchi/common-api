@@ -16,7 +16,7 @@ class DingTalkRobot(APIBase):
         self.set_at(at_mobiles, is_at_all)
         super().__init__(req=req)
 
-    def set_at(at_mobiles=[], is_at_all=False):
+    def set_at(self, at_mobiles=[], is_at_all=False):
         """ 设定是否@群成员 """
         self._is_at_all = bool(is_at_all)
         self._at_mobiles = [] if self._is_at_all else at_mobiles
@@ -71,7 +71,7 @@ class DingTalkRobot(APIBase):
         }
         return self._send(msg)
 
-    def send_actioncard_msg(self, title, text, vertical_btns=True, hide_avatar=False, single_btn=True, *btns):
+    def send_actioncard_msg(self, title, text, *btns, vertical_btns=True, hide_avatar=False, single_btn=True):
         """
         发送 ActionCard 消息，包括整体跳转 ActionCard 和独立跳转 ActionCard
 
@@ -113,7 +113,7 @@ class DingTalkRobot(APIBase):
         """
         msg = {
             "feedCard": {
-                "links": [{"title": i[0], "messageUrl": i[1]} for i in links],
+                "links": [{"title": i[0], "messageURL": i[1], "picURL": i[2]} for i in links],
             },
             "msgtype": "feedCard",
         }
