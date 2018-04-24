@@ -2,13 +2,16 @@
 # -*- coding: utf-8 -*-
 
 import urllib.parse
-import json
-import requests
 
 from .base import APIBase
 
 
 class WxOauth2(APIBase):
+    """
+    微信Oauth2.0授权
+
+    包括 开放平台网站应用授权 和 公众平台微信内网页授权
+    """
 
     __webapp_oauth_url = "https://open.weixin.qq.com/connect/qrconnect#wechat_redirect"
 
