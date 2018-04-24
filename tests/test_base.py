@@ -9,7 +9,7 @@ import sys
 sys.path.append(os.path.join(os.path.dirname(__file__), ".."))
 
 import unittest
-from source import APIBase
+from source.base import APIBase
 
 
 class TestAPIBase(unittest.TestCase):
