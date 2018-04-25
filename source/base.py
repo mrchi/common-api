@@ -17,11 +17,11 @@ class APIBase(object):
         self.__proxies = {}
 
     def set_connection_timeout(self, second):
-        """设置请求超时时间，单位毫秒"""
+        """设置请求超时时间，单位秒"""
         self.__connect_timeout = second
 
     def set_socket_timeout(self, second):
-        """设置响应超时时间，单位毫秒"""
+        """设置响应超时时间，单位秒"""
         self.__socket_timeout = second
 
     def set_proxies(self, proxies):
