@@ -36,7 +36,10 @@ class TestAPIBase(unittest.TestCase):
 
         self.assertEqual(resp["url"], url)
         self.assertEqual(resp["form"], data)
-        self.assertEqual(resp["headers"]["Content-Type"], "application/x-www-form-urlencoded")
+        self.assertEqual(
+            resp["headers"]["Content-Type"],
+            "application/x-www-form-urlencoded"
+        )
 
     def test_put(self):
         url = "https://httpbin.org/put"
@@ -49,7 +52,6 @@ class TestAPIBase(unittest.TestCase):
 
     def test_delete(self):
         url = "https://httpbin.org/delete"
-        data = dict(foo="bar")
         resp = self.base._delete(url)
 
         self.assertEqual(resp["url"], url)
@@ -67,4 +69,3 @@ class TestAPIBase(unittest.TestCase):
         resp = self.base._get(url)
 
         self.assertEqual(resp["errcode"], "sdk002")
-

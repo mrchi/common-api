@@ -58,11 +58,11 @@ class DingTalkRobot(APIBase):
     def send_markdown_msg(self, title, text):
         """ 发送markdown消息，text参数为markdown语法格式文本"""
         msg = {
-             "msgtype": "markdown",
-             "markdown": {
+            "msgtype": "markdown",
+            "markdown": {
                 "title": title.strip(),
                 "text": text.strip()
-             },
+            },
             "at": {
                 "atMobiles": self._at_mobiles,
                 "isAtAll": self._is_at_all,
@@ -70,7 +70,15 @@ class DingTalkRobot(APIBase):
         }
         return self._send(msg)
 
-    def send_actioncard_msg(self, title, text, *btns, vertical_btns=True, hide_avatar=False, single_btn=True):
+    def send_actioncard_msg(
+                self,
+                title,
+                text,
+                *btns,
+                vertical_btns=True,     # noqa
+                hide_avatar=False,
+                single_btn=True
+            ):
         """
         发送 ActionCard 消息，包括整体跳转 ActionCard 和独立跳转 ActionCard
 
@@ -85,8 +93,8 @@ class DingTalkRobot(APIBase):
                     "text": text.strip(),
                     "btnOrientation": "0",
                     "hideAvatar": "1" if hide_avatar else "0",
-                    "singleTitle" : btns[0][0],
-                    "singleURL" : btns[0][1],
+                    "singleTitle": btns[0][0],
+                    "singleURL": btns[0][1],
                 },
                 "msgtype": "actionCard",
             }
@@ -112,7 +120,13 @@ class DingTalkRobot(APIBase):
         """
         msg = {
             "feedCard": {
-                "links": [{"title": i[0], "messageURL": i[1], "picURL": i[2]} for i in links],
+                "links": [
+                    {
+                        "title": i[0],
+                        "messageURL": i[1],
+                        "picURL": i[2],
+                    } for i in links
+                ],
             },
             "msgtype": "feedCard",
         }

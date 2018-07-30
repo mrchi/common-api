@@ -4,7 +4,9 @@ __author__ = "Invoker"
 
 from json import JSONDecodeError
 from functools import partialmethod
+
 import requests
+from requests.exceptions import ReadTimeout, ConnectTimeout
 
 
 class APIBase(object):
@@ -38,10 +40,10 @@ class APIBase(object):
                 json=json,
                 timeout=(self.__connect_timeout, self.__socket_timeout),
                 proxies=self.__proxies,
-                **kw,
+                **kw
             )
             data = resp.json()
-        except (requests.exceptions.ReadTimeout, requests.exceptions.ConnectTimeout):
+        except (ReadTimeout, ConnectTimeout):
             return {
                 "errcode": "sdk001",
                 "errmsg": "connection or read data timeout",

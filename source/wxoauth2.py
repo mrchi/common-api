@@ -14,9 +14,11 @@ class WxOauth2(APIBase):
     包括 开放平台网站应用授权 和 公众平台微信内网页授权
     """
 
-    __webapp_oauth_url = "https://open.weixin.qq.com/connect/qrconnect#wechat_redirect"
+    __webapp_oauth_url = \
+        "https://open.weixin.qq.com/connect/qrconnect#wechat_redirect"
 
-    __mp_oauth_url = "https://open.weixin.qq.com/connect/oauth2/authorize#wechat_redirect"
+    __mp_oauth_url = \
+        "https://open.weixin.qq.com/connect/oauth2/authorize#wechat_redirect"
 
     __access_token_url = "https://api.weixin.qq.com/sns/oauth2/access_token"
 
@@ -122,7 +124,7 @@ class WxOauth2(APIBase):
         if lang not in ("zh_CN", "zh_TW", "en"):
             return {
                 "errcode": "sdk101",
-                "errmsg": "invalid lang parameter, should be zh_CN, zh_TW or en",
+                "errmsg": "invalid param 'lang', should be zh_CN, zh_TW or en",
             }
         params = {
             "access_token": access_token,
